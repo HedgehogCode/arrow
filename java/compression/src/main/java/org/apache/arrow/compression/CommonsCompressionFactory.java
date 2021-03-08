@@ -17,8 +17,8 @@
 
 package org.apache.arrow.compression;
 
-import org.apache.arrow.flatbuf.CompressionType;
 import org.apache.arrow.vector.compression.CompressionCodec;
+import org.apache.arrow.vector.compression.CompressionUtil;
 import org.apache.arrow.vector.compression.NoCompressionCodec;
 
 /**
@@ -29,15 +29,14 @@ public class CommonsCompressionFactory implements CompressionCodec.Factory {
   public static final CommonsCompressionFactory INSTANCE = new CommonsCompressionFactory();
 
   @Override
-  public CompressionCodec createCodec(byte codecType) {
+  public CompressionCodec createCodec(CompressionUtil.CodecType codecType) {
     switch (codecType) {
-      case NoCompressionCodec.COMPRESSION_TYPE:
+      case NO_COMPRESSION:
         return NoCompressionCodec.INSTANCE;
-      case CompressionType.LZ4_FRAME:
+      case LZ4_FRAME:
         return new Lz4CompressionCodec();
       default:
         throw new IllegalArgumentException("Compression type not supported: " + codecType);
     }
   }
-
 }
